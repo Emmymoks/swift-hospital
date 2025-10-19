@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Themed utility classes (kept with @apply so Tailwind builds them) */
+.card {
+	@apply bg-white/95 rounded-2xl p-4 sm:p-6 shadow-lg border border-accent/10;
+}
+.card-accent {
+	@apply bg-accent text-white rounded-xl p-6 shadow-lg;
+}
+.card-soft {
+	@apply bg-accent/10 text-accent rounded-xl p-4 shadow-sm border border-accent/5;
+}
+.brand-badge {
+	@apply w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-gold flex items-center justify-center text-white font-bold text-lg;
+}
