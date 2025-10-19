@@ -40,6 +40,8 @@ export default function Pharmacy(){
   })
   const [open, setOpen] = useState(false)
   const [toast, setToast] = useState({ open: false, message: '' })
+  const categories = Object.keys(categorizedProducts)
+  const [selectedCats, setSelectedCats] = useState(() => new Set(categories))
 
   useEffect(()=>{ localStorage.setItem('cart', JSON.stringify(cart)) }, [cart])
 
@@ -51,6 +53,19 @@ export default function Pharmacy(){
     })
     setToast({ open: true, message: `${p.name} added to cart` })
   }
+
+  function toggleCategory(cat){
+    setSelectedCats(prev => {
+      const s = new Set(prev)
+      if(s.has(cat)) s.delete(cat)
+      else s.add(cat)
+      return s
+    })
+  }
+
+  function selectAll(){ setSelectedCats(new Set(categories)) }
+
+  function clearAll(){ setSelectedCats(new Set()) }
 
   function handleRemove(item){
     setCart(prev => prev.filter(x => x.id !== item.id))
@@ -68,7 +83,7 @@ export default function Pharmacy(){
 
   return (
     <div className="container mx-auto grid gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h2 className="text-2xl font-semibold">Pharmacy</h2>
         <div>
           <button onClick={()=>setOpen(true)} className="px-4 py-2 rounded-lg bg-accent text-white">Open Cart ({cart.reduce((s,i)=>s+i.qty,0)})</button>
@@ -77,15 +92,38 @@ export default function Pharmacy(){
 
       <p className="text-slate-600">Browse our curated list of medicines. Prices shown are for demonstration only. Please consult our pharmacist for prescriptions and dosing.</p>
 
+      {/* Category filter buttons */}
+      <div className="mt-4">
+        <div className="flex gap-2 flex-wrap items-center">
+          <button onClick={selectAll} className="px-3 py-1 rounded-full text-sm bg-accent text-white">All</button>
+          <button onClick={clearAll} className="px-3 py-1 rounded-full text-sm border bg-white/90">Clear</button>
+          {categories.map(cat => {
+            const active = selectedCats.has(cat)
+            return (
+              <button
+                key={cat}
+                onClick={() => toggleCategory(cat)}
+                aria-pressed={active}
+                className={`px-3 py-1 rounded-full text-sm transition ${active ? 'bg-accent text-white' : 'bg-white/90 border'}`}>
+                {cat}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
       <div className="mt-4 space-y-8">
-        {Object.entries(categorizedProducts).map(([category, items]) => (
+        {Object.entries(categorizedProducts).filter(([category]) => selectedCats.size === 0 ? false : selectedCats.has(category)).map(([category, items]) => (
           <ScrollReveal key={category} className="block">
             <h3 className="text-xl font-semibold mb-3">{category}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map(p => <ProductCard key={p.id} product={p} onAdd={handleAdd} />)}
             </div>
           </ScrollReveal>
         ))}
+        {selectedCats.size === 0 && (
+          <div className="text-slate-500">No categories selected. Choose a category above to view items.</div>
+        )}
       </div>
 
       <CartDrawer open={open} items={cart} onClose={()=>setOpen(false)} onRemove={handleRemove} onCheckout={handleCheckout} />
