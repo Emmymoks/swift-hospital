@@ -81,7 +81,7 @@ export default function Pharmacy(){
         {Object.entries(categorizedProducts).map(([category, items]) => (
           <ScrollReveal key={category} className="block">
             <h3 className="text-xl font-semibold mb-3">{category}</h3>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map(p => <ProductCard key={p.id} product={p} onAdd={handleAdd} />)}
             </div>
           </ScrollReveal>
