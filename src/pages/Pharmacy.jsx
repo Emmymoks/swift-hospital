@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ProductCard from '../components/ProductCard'
 import ScrollReveal from '../components/ScrollReveal'
 import CartDrawer from '../components/CartDrawer'
+import Toast from '../components/Toast'
 
 const categorizedProducts = {
   'Pain & Fever': [
@@ -38,6 +39,7 @@ export default function Pharmacy(){
     } catch(e){ return [] }
   })
   const [open, setOpen] = useState(false)
+  const [toast, setToast] = useState({ open: false, message: '' })
 
   useEffect(()=>{ localStorage.setItem('cart', JSON.stringify(cart)) }, [cart])
 
@@ -47,6 +49,7 @@ export default function Pharmacy(){
       if(found) return prev.map(x=> x.id===p.id ? {...x, qty: x.qty+1} : x)
       return [...prev, {...p, qty:1}]
     })
+    setToast({ open: true, message: `${p.name} added to cart` })
   }
 
   function handleRemove(item){
@@ -86,6 +89,7 @@ export default function Pharmacy(){
       </div>
 
       <CartDrawer open={open} items={cart} onClose={()=>setOpen(false)} onRemove={handleRemove} onCheckout={handleCheckout} />
+      <Toast open={toast.open} message={toast.message} duration={1000} onClose={()=>setToast({ open:false, message: '' })} />
     </div>
   )
 }
