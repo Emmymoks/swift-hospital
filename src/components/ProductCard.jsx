@@ -4,8 +4,8 @@ import AnimatedButton from './AnimatedButton'
 
 export default function ProductCard({product, onAdd}){
   return (
-    <motion.div whileHover={{scale:1.02}} className="card">
-      <img src={product.image} alt={product.name} className="w-full h-28 sm:h-32 md:h-40 object-cover rounded-lg mb-3"/>
+    <motion.div whileHover={{scale:1.02}} className="card p-3 sm:p-4">
+      <img src={product.image} alt={product.name} className="w-full h-24 sm:h-28 md:h-32 lg:h-40 object-cover rounded-lg mb-3"/>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div className="flex-1">
           <h4 className="font-semibold text-sm md:text-base">{product.name}</h4>
@@ -13,7 +13,7 @@ export default function ProductCard({product, onAdd}){
         </div>
         <div className="flex items-center sm:flex-col sm:items-end gap-3">
           <div className="font-semibold text-sm md:text-base">${product.price.toFixed(2)}</div>
-          <AnimatedButton onClick={() => onAdd(product)} className="px-3 py-1 rounded-md bg-accent text-white text-xs sm:text-sm">Add</AnimatedButton>
+          <AnimatedButton onClick={() => onAdd(product)} className="px-3 py-1 rounded-md bg-accent text-white text-xs sm:text-sm w-full sm:w-auto">Add</AnimatedButton>
         </div>
       </div>
     </motion.div>
