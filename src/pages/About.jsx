@@ -25,7 +25,7 @@ export default function About(){
   {/* History */}
   <ScrollReveal className="mt-8 card">
         <h3 className="text-xl font-semibold">Our Story</h3>
-        <p className="text-slate-600 mt-2">Founded in 2002, Swift Hospital started as a small clinic with a big vision: to combine world-class medicine with hospitality-grade service. Over two decades wexpanded our specialties, invested in advanced technology, and cultivated a patient-first culture that places safety and compassion at the center of care.</p>
+        <p className="text-slate-600 mt-2">Founded in 2002, Swift Hospital started as a small clinic with a big vision: to combine world-class medicine with hospitality-grade service. Over two decades we expanded our specialties, invested in advanced technology, and cultivated a patient-first culture that places safety and compassion at the center of care.</p>
   </ScrollReveal>
 
   {/* Leadership */}
